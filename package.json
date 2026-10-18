@@ -1,0 +1,49 @@
+{
+  "name": "inertia-rails-ssr-cache-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "packageManager": "pnpm@10.33.4",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter inertia-rails-ssr-cache build",
+    "typecheck": "pnpm build && pnpm --filter inertia-rails-ssr-cache typecheck && tsc -p examples/demo/tsconfig.json",
+    "test": "pnpm --filter inertia-rails-ssr-cache test",
+    "lint": "pnpm build && eslint . --max-warnings 0 --report-unused-disable-directives",
+    "format:check": "prettier . --check",
+    "format": "prettier . --write",
+    "lint:markdown": "node tools/markdownlint.mjs",
+    "lint:unused": "knip && knip --production",
+    "check": "pnpm lint && pnpm format:check && pnpm lint:markdown && pnpm typecheck && pnpm lint:unused",
+    "publint": "publint",
+    "attw": "attw"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@eslint/js": "10.0.1",
+    "@inertiajs/core": "3.9.1",
+    "@inertiajs/react": "3.9.1",
+    "@inertiajs/svelte": "3.9.1",
+    "@inertiajs/vue3": "3.9.1",
+    "@types/node": "^26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "esbuild": "0.28.2",
+    "eslint": "10.12.0",
+    "eslint-config-prettier": "^10.1.0",
+    "globals": "^17.13.0",
+    "knip": "6.41.0",
+    "markdownlint": "0.42.0",
+    "prettier": "3.9.10",
+    "publint": "0.3.25",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "svelte": "5.57.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vue": "3.5.44"
+  }
+}

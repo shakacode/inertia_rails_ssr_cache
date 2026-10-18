@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+ENV["RAILS_VERSION"] = "~> 7.2.4"
+eval_gemfile "../../Gemfile"
+
+# Active Support 7.2 still passes JSON.generate's removed quirks_mode option.
+gem "json", "< 3"

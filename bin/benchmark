@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require_relative "../spec/fixtures/runtime"
+
+samples = Integer(ARGV.fetch(0, "30"))
+abort "Samples must be between 10 and 1000" unless (10..1000).cover?(samples)
+runtime = FixtureRuntime.new
+begin
+  renderer = runtime.start_renderer("release-a")
+  uncached = runtime.run("benchmark", [samples.to_s], renderer: renderer, scenario: "cache_disabled")
+  calls_before_warm = runtime.render_count(renderer)
+  warm = runtime.run("warm", ["/stable"], renderer: renderer)
+  abort "Warm did not prove native reuse" unless warm.fetch("success")
+  calls_after_warm = runtime.render_count(renderer)
+  cached = runtime.run("benchmark", [samples.to_s], renderer: renderer)
+  calls_after_visits = runtime.render_count(renderer)
+  raise "Cached visitors called Node" unless calls_after_visits == calls_after_warm
+
+  puts JSON.pretty_generate(
+    scope: "Synthetic local SSR-only fixture; no database or production traffic",
+    ruby: RUBY_VERSION,
+    node: Open3.capture2("node", "--version").first.strip,
+    architecture: RbConfig::CONFIG.fetch("arch"),
+    concurrency: 1,
+    store: "ActiveSupport::Cache::FileStore shared across Rails processes",
+    uncached: uncached.except("events").merge("renderer_calls" => calls_before_warm),
+    warming: { "renderer_calls" => calls_after_warm - calls_before_warm, "verified" => true },
+    cached: cached.except("events").merge("renderer_calls" => calls_after_visits - calls_after_warm)
+  )
+ensure
+  runtime.close
+end

@@ -1,0 +1,31 @@
+# Copyright (c) 2026 ShakaCode LLC.
+#
+# SPDX-License-Identifier: LicenseRef-InertiaRailsSsrCache
+#
+# This file is part of Inertia Rails SSR Cache. Use is governed by The
+# Inertia Rails SSR Cache License in LICENSE.md.
+
+# These narrow interfaces describe only the framework calls used by the public facade.
+# Inertia's evaluated version can be arbitrary application data; validation narrows it.
+interface _InertiaVersionConfiguration
+  def version: () -> Object?
+end
+
+module InertiaRails
+  def self.configuration: () -> _InertiaVersionConfiguration
+end
+
+interface _EnqueuedWarmJob
+  def job_id: () -> String
+end
+
+interface _ConfiguredWarmJob
+  def perform_later: (String? origin, Array[String] paths, String release) -> (_EnqueuedWarmJob | false)
+end
+
+module InertiaRailsSsrCache
+  class WarmJob
+    def self.validate_environment!: () -> void
+    def self.set: (queue: String | Symbol) -> _ConfiguredWarmJob
+  end
+end

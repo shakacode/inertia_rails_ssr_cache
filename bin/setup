@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../tools/commands"
+require_relative "../tools/security_tools"
+
+Development.run("bundle", "install")
+Development.pnpm("install", "--frozen-lockfile", "--store-dir", Development::ROOT.join("tmp/pnpm-store").to_s)
+SecurityTools.install

@@ -1,0 +1,70 @@
+# Copyright (c) 2026 ShakaCode LLC.
+#
+# SPDX-License-Identifier: LicenseRef-InertiaRailsSsrCache
+#
+# This file is part of Inertia Rails SSR Cache. Use is governed by The
+# Inertia Rails SSR Cache License in LICENSE.md.
+
+module InertiaRailsSsrCache
+  self.@configuration: Configuration?
+  def self.configure: () { (Configuration) -> void } -> Configuration
+  def self.configuration: () -> Configuration
+  def self.current_release: () -> String
+  def self.validate_release!: (Object? release) -> String
+  def self.warm_later: () -> String
+  class ConfigurationError < StandardError
+  end
+
+  class Configuration
+    MAX_TARGETS: Integer
+    RELEASE: Regexp
+    INVALID_CHARACTERS: Regexp
+    attr_accessor origin: String?
+    attr_accessor paths: Array[String]
+    attr_accessor queue_name: String | Symbol
+
+    def initialize: () -> void
+    def validate!: () -> self
+    def verify_targets!: (String requested_origin, Array[String] requested_paths) -> Array[String]
+    def self.validate_release: (Object? value) -> String
+    def self.validate_queue_name: (String | Symbol value) -> String
+    def self.valid_origin?: (URI::Generic parsed) -> bool
+    def self.validate_origin: (String? value) -> String
+    def self.validate_paths: (Array[String] value) -> Array[String]
+    def self.validate_path: (String path) -> void
+  end
+
+  type outcome = :reused | :http_failure | :missing_cache_evidence | :ambiguous_cache_evidence | :invalid_ssr_value | :cache_key_changed | :cache_not_reused | :release_mismatch
+  type cache_fetch = [String, bool]
+
+  class Observation
+    attr_reader ssr: bool
+    attr_reader status: Integer
+    attr_reader html: bool
+    attr_reader fetches: Array[cache_fetch]
+    def initialize: (status: Integer, html: bool, fetches: Array[cache_fetch], ssr: bool) -> void
+    def self.ssr_value?: (Object? value) -> bool
+    def failure: () -> (:http_failure | :missing_cache_evidence | :ambiguous_cache_evidence | :invalid_ssr_value)?
+  end
+
+  class TargetResult
+    attr_reader path: String
+    attr_reader outcome: outcome
+    attr_reader initial_cache_hit: bool?
+    def initialize: (path: String, outcome: outcome, ?initial_cache_hit: bool?) -> void
+    def self.reuse_outcome: (String initial_key, String repeat_key, bool repeat_hit) -> outcome
+    def self.compare: (String path, Observation first, Observation second) -> TargetResult
+  end
+
+  class Report
+    attr_reader release: String
+    attr_reader results: Array[TargetResult]
+    def initialize: (release: String, results: Array[TargetResult]) -> void
+    def success?: () -> bool
+  end
+
+  class WarmFailed < StandardError
+    attr_reader report: Report
+    def initialize: (Report report) -> void
+  end
+end

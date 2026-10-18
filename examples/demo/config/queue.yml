@@ -1,0 +1,6 @@
+workers:
+  - queues: ssr_warming
+    threads: 1
+    processes: 1
+    polling_interval: 0.1
+dispatchers: []

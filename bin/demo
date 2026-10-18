@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../tools/demo"
+
+case ARGV
+when [], ["start"] then Demo.new.start
+when ["warm"] then Demo.new.warm
+when ["verify"]
+  FileUtils.mkdir_p(Development::ROOT.join("tmp"))
+  Dir.mktmpdir("demo-verify-", Development::ROOT.join("tmp")) do |directory|
+    web_port, ssr_port = Demo.free_ports
+    Demo.new(directory: directory, web_port: web_port, ssr_port: ssr_port).verify
+  end
+else abort "Usage: bin/demo [start|warm|verify]"
+end

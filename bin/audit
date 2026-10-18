@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../tools/commands"
+
+database = Development::ROOT.join("tmp/ruby-advisory-db").to_s
+Development.run("bundle", "exec", "bundler-audit", "check", "--update", "--database", database)
+Development.run("bundle", "exec", "bundler-audit", "check", "--database", database,
+                "--gemfile-lock", "tools/gemfiles/rails_7_2.gemfile.lock")
+Development.pnpm("audit", "--audit-level", "low")

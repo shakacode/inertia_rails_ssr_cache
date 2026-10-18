@@ -1,0 +1,38 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.3
+  DisplayCopNames: true
+  SuggestExtensions: false
+  Exclude:
+    - 'node_modules/**/*'
+    - 'packages/**/node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'coverage/**/*'
+
+Layout/LineLength:
+  Max: 120
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+Style/Documentation:
+  Enabled: false
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: Gemfile
+
+# Thread/fiber unit tests keep their setup together within twenty lines.
+# Each integration example verifies one expensive real Rails/Node scenario.
+# Keep its conjunctive proof together rather than booting processes per assertion.
+RSpec/ExampleLength:
+  Max: 20
+  Exclude:
+    - 'spec/integration/inertia_rails_ssr_cache/warm_job_spec.rb'
+# This fixture's stdout is a JSON protocol read by the parent test process.
+RSpec/Output:
+  Exclude:
+    - 'spec/fixtures/worker.rb'

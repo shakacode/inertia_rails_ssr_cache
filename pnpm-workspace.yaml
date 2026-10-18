@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+
+minimumReleaseAge: 1440
+strictPeerDependencies: true
+
+# Upstream math parsing still constrains KaTeX below its patched release.
+# Remove these pins when its declared dependency ranges include the fixes.
+overrides:
+  'micromark-extension-math>katex': 0.18.2

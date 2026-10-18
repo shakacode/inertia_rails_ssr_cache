@@ -1,0 +1,8 @@
+default: &default
+  adapter: sqlite3
+  database: <%= WarmerDemo::RUNTIME.join('queue.sqlite3').to_s.to_json %>
+  pool: 5
+  timeout: 5000
+
+demo:
+  <<: *default

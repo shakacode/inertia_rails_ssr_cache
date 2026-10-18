@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": [
+        "spec/fixtures/**/*.mjs",
+        "examples/demo/build.mjs",
+        "examples/demo/frontend/{client,ssr}.ts"
+      ],
+      "project": ["spec/fixtures/**/*.mjs", "examples/demo/**/*.mjs", "examples/demo/frontend/**/*.ts"]
+    },
+    "packages/inertia-rails-ssr-cache": {
+      "entry": ["src/index.ts", "test/**/*.{ts,mjs}"],
+      "project": ["src/**/*.ts", "test/**/*.{ts,mjs}"]
+    }
+  }
+}

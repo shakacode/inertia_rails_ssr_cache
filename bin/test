@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../tools/commands"
+
+Development.pnpm("build")
+Development.pnpm("test")
+Development.run("bundle", "exec", "rspec")
+Development.run("bin/demo", "verify")

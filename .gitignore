@@ -1,0 +1,15 @@
+/.bundle/
+/node_modules/
+**/node_modules/
+**/dist/
+/tmp/
+/vendor/
+/coverage/
+*.gem
+*.tgz
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example
+!/.tool-versions

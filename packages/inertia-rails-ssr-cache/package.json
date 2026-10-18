@@ -1,0 +1,43 @@
+{
+  "name": "inertia-rails-ssr-cache",
+  "version": "0.1.0",
+  "description": "Guard Inertia SSR rendering against mismatched application and bundle releases.",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": "ShakaCode",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shakacode/inertia_rails_ssr_cache.git",
+    "directory": "packages/inertia-rails-ssr-cache"
+  },
+  "homepage": "https://github.com/shakacode/inertia_rails_ssr_cache/tree/main/packages/inertia-rails-ssr-cache#readme",
+  "bugs": {
+    "url": "https://github.com/shakacode/inertia_rails_ssr_cache/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit && tsc -p test/compatibility/tsconfig.json",
+    "test": "node --experimental-strip-types --test test/*.test.ts test/compatibility/*.test.mjs",
+    "prepack": "pnpm run build"
+  }
+}

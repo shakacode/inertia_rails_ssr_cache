@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../tools/commands"
+require_relative "../tools/security_tools"
+
+Development.run("bundle", "exec", "rubocop", "--parallel", "--cache", "false")
+Development.run("bundle", "exec", "rbs", "-r", "uri", "-I", "sig", "validate")
+Development.run("bundle", "exec", "steep", "check")
+Development.pnpm("check")
+Development.run("shellcheck", ".agents/shaka/bin/setup", ".agents/shaka/bin/test", ".agents/shaka/bin/validate")
+SecurityTools.run("actionlint")
+SecurityTools.run("zizmor", "--offline", "--persona=pedantic", ".github/workflows")
+SecurityTools.run("gitleaks", "dir", "--redact", "--no-banner", ".")
+Development.run("bin/test")
+Development.run("bin/package")

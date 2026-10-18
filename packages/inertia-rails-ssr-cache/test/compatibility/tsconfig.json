@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["inertia-types.ts"],
+  "exclude": [],
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  }
+}

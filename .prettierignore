@@ -1,0 +1,13 @@
+node_modules/
+**/node_modules/
+**/dist/
+tmp/
+vendor/
+coverage/
+pnpm-lock.yaml
+Gemfile.lock
+**/*.gemfile.lock
+.agents/
+# Binding license text: keep byte-for-byte as reviewed.
+LICENSE.md
+**/LICENSE.md

@@ -1,0 +1,12 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated dependencies, compiler output, and temporary tool downloads"
+paths = [
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''^tmp/''',
+  '''^vendor/''',
+  '''^coverage/''',
+]
