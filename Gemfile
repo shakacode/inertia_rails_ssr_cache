@@ -12,7 +12,7 @@ gem "rspec", "~> 3.13"
 gem "rubocop", "~> 1.92", require: false
 gem "rubocop-performance", "~> 1.27", require: false
 gem "rubocop-rspec", "~> 3.10", require: false
-gem "steep", "~> 2.0", require: false
+gem "steep", "~> 2.1", require: false
 
 # Runnable demo infrastructure; not runtime dependencies of the gem.
 gem "puma", "~> 7.1", require: false
