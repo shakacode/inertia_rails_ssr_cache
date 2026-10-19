@@ -271,7 +271,7 @@ GEM
       thor (>= 1.3.1)
     sqlite3 (2.10.0-arm64-darwin)
     sqlite3 (2.10.0-x86_64-linux-gnu)
-    steep (2.0.0)
+    steep (2.1.0)
       concurrent-ruby (>= 1.1.10)
       csv (>= 3.0.9)
       fileutils (>= 1.1.0)
@@ -282,7 +282,7 @@ GEM
       parser (>= 3.2)
       prism (>= 0.25.0)
       rainbow (>= 2.2.2, < 4.0)
-      rbs (~> 4.0)
+      rbs (~> 4.2)
       securerandom (>= 0.1)
       strscan (>= 1.0.0)
       terminal-table (>= 2, < 5)
@@ -325,7 +325,7 @@ DEPENDENCIES
   rubocop-rspec (~> 3.10)
   solid_queue (~> 1.3)
   sqlite3 (~> 2.7)
-  steep (~> 2.0)
+  steep (~> 2.1)
 
 CHECKSUMS
   actioncable (7.2.4) sha256=053e939f728eac986ff5321e42ba5b884de6ab64a392af0e8d45866d0d3fb63a
@@ -421,7 +421,7 @@ CHECKSUMS
   solid_queue (1.7.0) sha256=6566b70b801d1c317c81bba7bcdd5677c019afac584a30374b4164002ca356d3
   sqlite3 (2.10.0-arm64-darwin) sha256=f619f33adfd01a1827e8764a3da92b289c1a99d93707d021a242dccba6909c4e
   sqlite3 (2.10.0-x86_64-linux-gnu) sha256=295f48b240ba663efa2e3b6f38cbc0f19f5c8a2823a71fda3bf15531be5dd0e8
-  steep (2.0.0) sha256=6eb0ecc09637bbb54f0a5f2cf63daea6d3208ccace64b4f1107d976333605c30
+  steep (2.1.0) sha256=1daf53573283b0e6d404a7273cca41fe5c15b14ece05167934f5ffc179e171d9
   strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
