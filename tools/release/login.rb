@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "open3"
+require "rubygems"
 
 module Release
   # Makes sure npm and RubyGems can publish, signing in interactively when they cannot,
@@ -8,7 +9,7 @@ module Release
   class Login
     NPM_REGISTRY = "https://registry.npmjs.org/"
 
-    def initialize(shell:, interactive: $stdin.tty?, credentials: File.expand_path("~/.gem/credentials"))
+    def initialize(shell:, interactive: $stdin.tty?, credentials: Gem.configuration.credentials_path)
       @shell = shell
       @interactive = interactive
       @credentials = credentials
