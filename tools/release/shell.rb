@@ -18,6 +18,12 @@ module Release
       system(env, *command, chdir: root, exception: true)
     end
 
+    # Runs a command attached to the terminal, for prompts such as npm login.
+    def success_interactive?(*command)
+      puts "+ #{Shellwords.join(command)}"
+      system(*command, chdir: root)
+    end
+
     def success?(*command)
       system(*command, chdir: root, out: File::NULL, err: File::NULL)
     end

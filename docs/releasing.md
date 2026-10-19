@@ -56,8 +56,11 @@ bump is an ordinary PR.
 The task:
 
 - stops unless you are on a clean `main` equal to `origin/main`, the version
-  files and a dated changelog section match the version, `gh`, npm and RubyGems
-  credentials are present, and CI passed on `HEAD`;
+  files and a dated changelog section match the version, `gh` is authenticated,
+  and CI passed on `HEAD`;
+- runs `npm login` and `gem signin` for you when either registry has no
+  credentials, as react_on_rails' release task does for npm (in a terminal
+  only; elsewhere it reports the missing login);
 - runs `bin/setup`, `bin/validate` and `bin/audit` in a detached worktree of
   `HEAD`, and prints both artifacts with their checksums;
 - refuses to continue if either registry already holds that version with

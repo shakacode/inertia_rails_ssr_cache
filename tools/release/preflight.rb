@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require_relative "login"
 
 module Release
   # Checks that must pass before anything is built or published. In a dry run,
@@ -10,8 +11,9 @@ module Release
 
     attr_reader :problems
 
-    def initialize(shell:, version:, changelog:, dry_run:)
+    def initialize(shell:, version:, changelog:, dry_run:, login: Login.new(shell: shell))
       @shell = shell
+      @login = login
       @version = version
       @changelog = changelog
       @dry_run = dry_run
@@ -64,10 +66,13 @@ module Release
 
     def check_auth
       problem("GitHub CLI is not authenticated") unless @shell.success?("gh", "auth", "status")
-      problem("npm is not logged in; run npm login") unless @shell.success?("npm", "whoami")
-      return if ENV.key?("GEM_HOST_API_KEY") || File.exist?(File.expand_path("~/.gem/credentials"))
-
-      problem("RubyGems credentials not found; run gem signin")
+      npm_user = @login.npm
+      if npm_user
+        puts "npm: logged in as #{npm_user}"
+      else
+        problem("npm is not logged in; npm login failed or was skipped")
+      end
+      problem("RubyGems has no credentials; gem signin failed or was skipped") unless @login.rubygems?
     end
 
     def check_ci

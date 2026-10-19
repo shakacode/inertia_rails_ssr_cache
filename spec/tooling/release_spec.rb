@@ -124,6 +124,37 @@ RSpec.describe Release, :aggregate_failures do
     end
   end
 
+  describe Release::Login do
+    let(:directory) { Dir.mktmpdir("release-login-") }
+    let(:credentials) { File.join(directory, "credentials") }
+    let(:shell) { instance_double(Release::Shell, root: directory, success_interactive?: true) }
+
+    after { FileUtils.remove_entry(directory) }
+
+    def login(interactive:)
+      described_class.new(shell: shell, interactive: interactive, credentials: credentials)
+    end
+
+    it "runs gem signin when RubyGems has no credentials and a terminal is attached" do
+      allow(shell).to receive(:success_interactive?).with("gem", "signin") do
+        File.write(credentials, "---\n:rubygems_api_key: rubygems_abc\n")
+      end
+      expect(login(interactive: true).rubygems?).to be(true)
+      expect(shell).to have_received(:success_interactive?).with("gem", "signin")
+    end
+
+    it "only reports missing RubyGems credentials without a terminal" do
+      expect(login(interactive: false).rubygems?).to be(false)
+      expect(shell).not_to have_received(:success_interactive?)
+    end
+
+    it "accepts existing RubyGems credentials without signing in" do
+      File.write(credentials, "---\n:rubygems_api_key: rubygems_abc\n")
+      expect(login(interactive: true).rubygems?).to be(true)
+      expect(shell).not_to have_received(:success_interactive?)
+    end
+  end
+
   describe Release::Publish do
     let(:directory) { Dir.mktmpdir("release-publish-") }
     let(:version) { Release::Version.new("0.1.0") }
