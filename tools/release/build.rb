@@ -36,10 +36,13 @@ module Release
       ].join("\n")
     end
 
+    # Safe after a failure at any step, including a worktree that was never registered.
     def cleanup
-      return unless @directory && File.directory?(@directory)
+      return unless @directory
 
-      @shell.run("git", "worktree", "remove", "--force", @directory)
+      @shell.success?("git", "worktree", "remove", "--force", @directory)
+      FileUtils.rm_rf(@directory)
+      @shell.success?("git", "worktree", "prune")
     end
 
     private

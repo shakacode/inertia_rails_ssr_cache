@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "date"
 require "tempfile"
 
 module Release
@@ -34,10 +33,15 @@ module Release
     end
 
     def arguments(notes_path)
-      arguments = [@version.tag, "--title", "#{@version.tag} (#{Date.today.iso8601})", "--notes-file", notes_path]
+      arguments = [@version.tag, "--title", title, "--notes-file", notes_path]
       arguments << "--verify-tag" unless existing?
       arguments << "--prerelease" if @version.prerelease?
       arguments
+    end
+
+    def title
+      date = @changelog.date(@version.gem)
+      date ? "#{@version.tag} (#{date})" : @version.tag
     end
 
     def existing?

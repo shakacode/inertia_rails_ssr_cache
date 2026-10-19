@@ -47,6 +47,7 @@ RSpec.describe Release, :aggregate_failures do
       expect(changelog.latest_version).to eq("0.2.0")
       expect([changelog.dated?("0.2.0"), changelog.dated?("0.1.0"), changelog.dated?("9.9.9")])
         .to eq([false, true, false])
+      expect([changelog.date("0.1.0"), changelog.date("0.2.0")]).to eq(["2026-10-18", nil])
     end
 
     it "returns one section's body" do
@@ -95,6 +96,31 @@ RSpec.describe Release, :aggregate_failures do
         expect(described_class.local_npm_integrity(path))
           .to eq("sha512-#{Base64.strict_encode64(Digest::SHA512.digest('bytes'))}")
       end
+    end
+  end
+
+  describe Release::Build do
+    it "removes its worktree when the build fails" do
+      shell = instance_double(Release::Shell, success?: true)
+      allow(shell).to receive(:run).and_raise("setup failed")
+      build = described_class.new(shell: shell, commit: "abc", version: Release::Version.new("0.1.0"))
+      directory = nil
+      allow(Dir).to(receive(:mktmpdir).and_wrap_original { |original, *args| directory = original.call(*args) })
+      expect { build.run }.to raise_error("setup failed")
+      build.cleanup
+      expect(File.exist?(directory)).to be(false)
+      expect(shell).to have_received(:success?).with("git", "worktree", "remove", "--force", directory)
+    end
+  end
+
+  describe Release::GithubRelease do
+    it "titles the release with the changelog date, not today's" do
+      shell = instance_double(Release::Shell, success?: true, run: true)
+      changelog = Release::Changelog.new("## 0.1.0 — 2026-10-18\n\nFirst release.\n")
+      described_class.new(shell: shell, version: Release::Version.new("0.1.0"), changelog: changelog,
+                          dry_run: false).run
+      expect(shell).to have_received(:run).with("gh", "release", "edit", "v0.1.0", "--title", "v0.1.0 (2026-10-18)",
+                                                "--notes-file", kind_of(String))
     end
   end
 

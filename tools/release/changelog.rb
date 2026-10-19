@@ -14,8 +14,13 @@ module Release
     end
 
     def dated?(version)
-      date = headings[version]
-      !date.nil? && date.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+      !date(version).nil?
+    end
+
+    # The section's release date ("2026-10-18"), or nil when undated or missing.
+    def date(version)
+      heading = headings[version]
+      heading if heading&.match?(/\A\d{4}-\d{2}-\d{2}\z/)
     end
 
     # The section body for a version, without its heading, or nil.

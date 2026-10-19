@@ -45,9 +45,9 @@ module Release
       puts "#{'DRY RUN: ' if @dry_run}Releasing #{@version.gem} (npm #{@version.npm}, dist-tag " \
            "#{@version.npm_dist_tag})"
       @preflight.run
-      build = Build.new(shell: @shell, commit: @preflight.head, version: @version).run
+      build = Build.new(shell: @shell, commit: @preflight.head, version: @version)
       begin
-        release(build)
+        release(build.run)
       ensure
         build.cleanup
       end
