@@ -32,35 +32,43 @@ evidence supplied by this repository's unit tests or a registry release.
 
 ## Registry release
 
-The gem version file, `lib/inertia_rails_ssr_cache/version.rb`, is the one place
-to change the version. The package check fails unless both npm manifests match
-it. Ruby and npm prerelease syntax differs: map `0.1.0.rc.1` to `0.1.0-rc.1`
-explicitly rather than updating one artifact alone.
+Releases run through one Rake task, like the other ShakaStack gems. Unlike
+Shakapacker's task, it never bumps versions or commits to `main`: the version
+bump is an ordinary PR.
 
-1. On a branch, bump the version file and both `package.json` versions, add the
-   [changelog](../CHANGELOG.md) entry, and merge the PR.
-2. In a clean checkout of the merged commit, run `bin/setup`, `bin/validate` and
-   `bin/audit`. A network failure in `bin/audit` is an incomplete audit, not a
-   pass.
-3. Run `bin/package`. It writes
-   `tmp/packages/inertia_rails_ssr_cache-VERSION.gem` and
-   `tmp/packages/inertia-rails-ssr-cache-VERSION.tgz`, and smoke-tests both from
-   a clean consumer.
-4. Inspect both artifacts: `gem specification FILE files` for the gem and
-   `tar -tzf FILE` for the npm tarball. Only `lib/`, `sig/`, `README.md` and
-   `LICENSE.md` ship in the gem; only `dist/`, `README.md`, `LICENSE.md` and
-   `package.json` in the npm package. Record both SHA-256 checksums.
-5. Check that the target versions are not already on either registry:
-   `gem info inertia_rails_ssr_cache --remote --all` and
-   `npm view inertia-rails-ssr-cache versions`.
-6. Tag the commit `vVERSION` locally.
-7. Push the gem: `gem push tmp/packages/inertia_rails_ssr_cache-VERSION.gem`.
-8. Publish npm:
-   `npm publish tmp/packages/inertia-rails-ssr-cache-VERSION.tgz --access public`.
-9. Verify both registries: `gem info inertia_rails_ssr_cache --remote` and
-   `npm view inertia-rails-ssr-cache version license`.
-10. Push the tag and create the GitHub release from the changelog entry.
+1. On a branch, set the version in `lib/inertia_rails_ssr_cache/version.rb` and
+   both `package.json` files, and add a dated `CHANGELOG.md` section
+   (`## 0.2.0 — 2026-11-01`). Ruby and npm prerelease syntax differs: the task
+   maps `0.2.0.rc.1` to `0.2.0-rc.1`, and the npm files must use the npm form.
+   Merge the PR.
+2. On an up-to-date `main`, dry-run the release:
 
-Publishing two artifacts is not an atomic operation. If one publish fails, check
-which versions exist on each registry before retrying anything; never republish
-a version number that already exists on either registry.
+   ```sh
+   bundle exec rake "release[,true]"
+   ```
+
+3. Release:
+
+   ```sh
+   bundle exec rake "release[0.2.0]"
+   ```
+
+The task:
+
+- stops unless you are on a clean `main` equal to `origin/main`, the version
+  files and a dated changelog section match the version, `gh`, npm and RubyGems
+  credentials are present, and CI passed on `HEAD`;
+- runs `bin/setup`, `bin/validate` and `bin/audit` in a detached worktree of
+  `HEAD`, and prints both artifacts with their checksums;
+- refuses to continue if either registry already holds that version with
+  different contents;
+- asks you to type the version, then tags `HEAD` as `vVERSION`;
+- runs `gem push` and `npm publish` (prereleases use the `next` dist-tag), each
+  asking for your one-time password;
+- waits until both registries serve the built contents, pushes the tag and
+  creates the GitHub release from the changelog section.
+
+Publishing two artifacts is not atomic. If a run stops partway, rerun the same
+command: a registry that already serves identical bytes is skipped, and an
+existing local tag is reused only if it points at `HEAD`. To recreate only the
+GitHub release, run `bundle exec rake "sync_github_release[0.2.0]"`.
