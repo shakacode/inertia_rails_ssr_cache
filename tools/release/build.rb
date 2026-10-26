@@ -20,7 +20,7 @@ module Release
     def run
       @directory = Dir.mktmpdir("inertia-rails-ssr-cache-release-")
       @shell.run("git", "worktree", "add", "--detach", @directory, @commit)
-      checkout = Shell.new(@directory)
+      checkout = Shell.new(@directory, unbundled: true)
       %w[bin/setup bin/validate bin/audit].each { |command| checkout.run(command) }
       locate_artifacts
       self

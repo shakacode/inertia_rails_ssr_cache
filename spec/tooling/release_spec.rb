@@ -124,6 +124,16 @@ RSpec.describe Release, :aggregate_failures do
     end
   end
 
+  describe Release::Shell do
+    it "hides the caller's Bundler environment from an unbundled checkout" do
+      script = 'print ENV.fetch("BUNDLE_GEMFILE", "unset")'
+      bundled = described_class.new(Dir.pwd).capture(RbConfig.ruby, "-e", script)
+      unbundled = described_class.new(Dir.pwd, unbundled: true).capture(RbConfig.ruby, "-e", script)
+      expect(bundled).to end_with("Gemfile")
+      expect(unbundled).to eq("unset")
+    end
+  end
+
   describe Release::Login do
     let(:directory) { Dir.mktmpdir("release-login-") }
     let(:credentials) { File.join(directory, "credentials") }
@@ -139,7 +149,7 @@ RSpec.describe Release, :aggregate_failures do
       allow(shell).to receive(:success_interactive?).with("gem", "signin") do
         File.write(credentials, "---\n:rubygems_api_key: rubygems_abc\n")
       end
-      expect(login(interactive: true).rubygems?).to be(true)
+      expect { expect(login(interactive: true).rubygems?).to be(true) }.to output(/Running gem signin/).to_stdout
       expect(shell).to have_received(:success_interactive?).with("gem", "signin")
     end
 
