@@ -129,7 +129,7 @@ RSpec.describe Release, :aggregate_failures do
       script = 'print ENV.fetch("BUNDLE_GEMFILE", "unset")'
       bundled = described_class.new(Dir.pwd).capture(RbConfig.ruby, "-e", script)
       unbundled = described_class.new(Dir.pwd, unbundled: true).capture(RbConfig.ruby, "-e", script)
-      expect(bundled).to end_with("Gemfile")
+      expect(bundled).to eq(ENV.fetch("BUNDLE_GEMFILE"))
       expect(unbundled).to eq("unset")
     end
   end
