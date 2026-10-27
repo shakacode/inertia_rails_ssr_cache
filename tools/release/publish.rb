@@ -6,7 +6,8 @@ module Release
   # Publishes both artifacts, skipping a registry that already holds identical bytes,
   # so a partial release can be resumed by rerunning the task.
   class Publish
-    VERIFY_ATTEMPTS = 12
+    # npm can take several minutes to serve a new version ("Your package is being processed").
+    VERIFY_ATTEMPTS = 60
     VERIFY_INTERVAL = 10
 
     def initialize(shell:, version:, build:, registry: Registry.new, sleeper: ->(seconds) { sleep(seconds) })
@@ -53,12 +54,29 @@ module Release
     end
 
     def verify
-      VERIFY_ATTEMPTS.times do
-        return puts("Both registries serve #{@version.gem} with the built contents.") if published?
+      VERIFY_ATTEMPTS.times do |attempt|
+        return verified if published?
 
+        puts "Waiting for #{pending.join(' and ')} to serve #{@version.gem}..." if (attempt % 6).zero?
         @sleeper.call(VERIFY_INTERVAL)
       end
-      raise "Registries do not yet serve #{@version.gem}; check them before retrying anything"
+      return verified if published?
+
+      raise timeout_message
+    end
+
+    def verified
+      puts "Both registries serve #{@version.gem} with the built contents."
+    end
+
+    def timeout_message
+      "#{pending.join(' and ')} did not serve #{@version.gem} within " \
+        "#{VERIFY_ATTEMPTS * VERIFY_INTERVAL / 60} minutes. Rerun the same release command to resume: " \
+        "registries that already serve the built contents are skipped."
+    end
+
+    def pending
+      [("RubyGems" unless gem_state == :same), ("npm" unless npm_state == :same)].compact
     end
 
     def published?
