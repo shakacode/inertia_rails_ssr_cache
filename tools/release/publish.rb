@@ -55,12 +55,18 @@ module Release
 
     def verify
       VERIFY_ATTEMPTS.times do |attempt|
-        return puts("Both registries serve #{@version.gem} with the built contents.") if published?
+        return verified if published?
 
         puts "Waiting for #{pending.join(' and ')} to serve #{@version.gem}..." if (attempt % 6).zero?
         @sleeper.call(VERIFY_INTERVAL)
       end
+      return verified if published?
+
       raise timeout_message
+    end
+
+    def verified
+      puts "Both registries serve #{@version.gem} with the built contents."
     end
 
     def timeout_message
