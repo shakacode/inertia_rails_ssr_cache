@@ -192,6 +192,13 @@ RSpec.describe Release, :aggregate_failures do
       expect(shell).not_to have_received(:run)
     end
 
+    it "tells the operator to rerun when a registry is still processing" do
+      gem_sha = Release::Registry.local_gem_sha256(build.gem_path)
+      processing = publisher(registry(gem: gem_sha, npm: nil))
+      expect { processing.send(:verify) }.to raise_error(/npm did not serve 0.1.0 within 10 minutes. Rerun/)
+                                         .and output(/Waiting for npm/).to_stdout
+    end
+
     it "skips a registry that already serves identical bytes" do
       gem_sha = Release::Registry.local_gem_sha256(build.gem_path)
       npm_integrity = Release::Registry.local_npm_integrity(build.npm_path)
