@@ -8,3 +8,7 @@ strictPeerDependencies: true
 # Remove these pins when its declared dependency ranges include the fixes.
 overrides:
   'micromark-extension-math>katex': 0.18.2
+  # GHSA-g3hv-75wg-m249 is patched in 11.0.1; ESLint still declares ^10.
+  minimatch: 11.0.3
+  # GHSA-gg6h-894w-4m9c is patched in 2.8.7; markdownlint still pins 2.8.6.
+  'markdownlint>re2js': 2.8.7
