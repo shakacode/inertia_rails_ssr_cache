@@ -6,8 +6,8 @@ All notable changes to the `inertia_rails_ssr_cache` gem and the
 ## 0.1.0 — 2026-10-18
 
 First public release. An early release: run the
-[adopter pilot](docs/releasing.md#adopter-pilot-before-production-use) before
-production use.
+[adopter pilot](https://github.com/shakacode/inertia_rails_ssr_cache/blob/main/docs/releasing.md#adopter-pilot-before-production-use)
+before production use.
 
 - `InertiaRailsSsrCache.warm_later` and the `inertia_rails_ssr_cache:warm` task
   enqueue one Active Job job that warms up to 50 registered public paths and
