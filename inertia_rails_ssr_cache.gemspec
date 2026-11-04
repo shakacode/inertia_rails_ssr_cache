@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "actionpack", ">= 7.2", "< 8.2"
   spec.add_dependency "activejob", ">= 7.2", "< 8.2"
   spec.add_dependency "activesupport", ">= 7.2", "< 8.2"
-  spec.add_dependency "inertia_rails", "~> 3.22.0"
+  spec.add_dependency "inertia_rails", ">= 3.22", "< 3.24"
   spec.add_dependency "rack", ">= 3.1", "< 4"
   spec.add_dependency "railties", ">= 7.2", "< 8.2"
 end
