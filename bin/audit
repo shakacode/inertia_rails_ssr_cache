@@ -4,9 +4,9 @@
 require_relative "../tools/commands"
 
 # tools/gemfiles/rails_7_2.gemfile.lock is tested in CI but not audited. Rails 7.2
-# has no patched release for the Rails advisories published on 2026-11-04; their
-# fixes ship in Rails 8.0.5.2 and 8.1.4.1. Apps on Rails 7.2 need to move to one of
-# those releases or newer to receive the fixes.
+# has no patched release for the Rails advisories published on 2026-11-04. Apps on
+# Rails 7.2 need Rails 8.0.5.2 or later in the 8.0 line, or Rails 8.1.4.1 or later
+# in the 8.1 line, to receive the fixes.
 database = Development::ROOT.join("tmp/ruby-advisory-db").to_s
 Development.run("bundle", "exec", "bundler-audit", "check", "--update", "--database", database)
 Development.pnpm("audit", "--audit-level", "low")

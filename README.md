@@ -165,9 +165,9 @@ bin/audit
 `bin/validate` runs behavior, type, lint, workflow and package checks. `bin/audit`
 checks the main Ruby lock and npm dependencies for advisories and requires network
 access. The Rails 7.2 lock is tested but not audited: Rails 7.2 has no patched
-release for the Rails advisories published on 2026-11-04, whose fixes ship in
-Rails 8.0.5.2 and 8.1.4.1. Apps on Rails 7.2 need to move to one of those releases
-or newer to receive the fixes. See the manifests and
+release for the Rails advisories published on 2026-11-04. Apps on Rails 7.2 need
+Rails 8.0.5.2 or later in the 8.0 line, or Rails 8.1.4.1 or later in the 8.1 line,
+to receive the fixes. See the manifests and
 [contribution guide](CONTRIBUTING.md) for the exact tools and commands.
 
 ## Runnable demo
