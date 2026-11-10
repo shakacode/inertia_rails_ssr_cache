@@ -3,8 +3,23 @@
 
 require_relative "../tools/commands"
 
+# Rails 7.2 has no patched release for these Rails advisories published on
+# 2026-11-04. Apps on Rails 7.2 need Rails 8.0.5.2 or later in the 8.0 line, or
+# Rails 8.1.4.1 or later in the 8.1 line, to receive the fixes. Only the Rails 7.2
+# test lockfile ignores them; every other advisory in it still fails the audit.
+RAILS_7_2_UNPATCHED = %w[
+  GHSA-5957-c7qm-m469
+  GHSA-2586-8ghr-69fj GHSA-gmj8-hvj3-49mw GHSA-r9jg-fmfx-2gv6 GHSA-rwvh-fw6r-pwvp
+  GHSA-wm3x-v3qw-4jh3 GHSA-x6mj-8jx9-qhqv
+  GHSA-2p2f-4rq4-gjwc GHSA-68p9-83h6-5wpj GHSA-rq8q-p985-fjq7 GHSA-v6rj-xm57-3p59
+  GHSA-3f4q-8x5m-76v8 GHSA-3w93-6hmw-whh4 GHSA-f3w6-w445-fwh9 GHSA-hfr4-8rjc-97m2
+  GHSA-p2pm-g2h6-7j5j GHSA-v924-7rp8-4mxh
+  GHSA-8474-xrp6-wh69
+].freeze
+
 database = Development::ROOT.join("tmp/ruby-advisory-db").to_s
 Development.run("bundle", "exec", "bundler-audit", "check", "--update", "--database", database)
 Development.run("bundle", "exec", "bundler-audit", "check", "--database", database,
-                "--gemfile-lock", "tools/gemfiles/rails_7_2.gemfile.lock")
+                "--gemfile-lock", "tools/gemfiles/rails_7_2.gemfile.lock",
+                "--ignore", *RAILS_7_2_UNPATCHED)
 Development.pnpm("audit", "--audit-level", "low")
