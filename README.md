@@ -190,10 +190,12 @@ Inertia Rails SSR Cache uses ShakaCode Trust-Based Commercial Licensing, under
 TL;DR: development, test, CI, staging and preview use is free for
 everyone. Production use is free for organizations under 10 people, $1M
 revenue and $1M raised, and for charities, schools and hospitals at any
-size. Otherwise, an active ShakaStack Pro subscription (which includes
-React on Rails Pro) covers it for organizations under 250 people and
-$10M revenue; see [pro.reactonrails.com](https://pro.reactonrails.com/).
-Larger organizations and questions:
+size. Otherwise, an active ShakaStack Pro subscription (which includes React on
+Rails Pro) covers Inertia Rails SSR Cache for your whole organization, with no
+limit on headcount or revenue. See
+[pro.reactonrails.com](https://pro.reactonrails.com/) and the
+[ShakaStack Pro coverage notice](https://github.com/shakacode/commercial-licensing/blob/main/license/notices/2026-11-shakastack-pro-coverage.md),
+which extends this coverage to releases under the current license. Questions:
 [contact@shakacode.com](mailto:contact@shakacode.com).
 
 There are no license keys and nothing phones home. [LICENSE.md](LICENSE.md) is the
