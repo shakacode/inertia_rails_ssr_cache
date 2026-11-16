@@ -16,5 +16,5 @@ gem "steep", "~> 2.1", require: false
 
 # Runnable demo infrastructure; not runtime dependencies of the gem.
 gem "puma", "~> 8.0", require: false
-gem "solid_queue", "~> 1.3", require: false
+gem "solid_queue", "~> 1.7", require: false
 gem "sqlite3", "~> 2.7", require: false
