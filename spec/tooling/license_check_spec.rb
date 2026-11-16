@@ -35,7 +35,7 @@ RSpec.describe LicenseCheck do
   end
 
   it "blocks the current version in release preflight" do
-    version = Release::Version.new(InertiaRailsSsrCache::VERSION)
+    version = Release::Version.new("0.1.0")
     shell = instance_double(Release::Shell, root: Development::ROOT)
     preflight = Release::Preflight.new(shell: shell, version: version, changelog: Release.changelog, dry_run: false)
 
