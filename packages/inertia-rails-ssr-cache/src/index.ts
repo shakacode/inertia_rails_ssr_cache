@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2026 ShakaCode LLC.
  *
- * SPDX-License-Identifier: LicenseRef-InertiaRailsSsrCache
+ * SPDX-License-Identifier: LicenseRef-ShakaStack-1.0-InertiaRailsSsrCache
  *
  * This file is part of Inertia Rails SSR Cache. Use is governed by The
- * Inertia Rails SSR Cache License in LICENSE.md.
+ * ShakaStack License in LICENSE.md.
  */
 
 /** Raised before rendering when Rails and the built SSR bundle disagree. */

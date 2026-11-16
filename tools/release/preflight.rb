@@ -2,6 +2,7 @@
 
 require "json"
 require_relative "login"
+require_relative "../license_check"
 
 module Release
   # Checks that must pass before anything is built or published. In a dry run,
@@ -62,6 +63,9 @@ module Release
       problem("Version files are not #{@version.gem}: #{mismatched.join(', ')}. Merge a bump PR first") if
         mismatched.any?
       problem("CHANGELOG.md has no dated section for #{@version.gem}") unless @changelog.dated?(@version.gem)
+      LicenseCheck.release!(@version.gem)
+    rescue RuntimeError => e
+      problem(e.message)
     end
 
     def check_auth

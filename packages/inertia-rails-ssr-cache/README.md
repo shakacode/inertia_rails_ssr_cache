@@ -34,7 +34,7 @@ framework runtime dependencies are required. Install the same version as the gem
 Version 0.1.0 is an early release; see the gem's adopter pilot guidance before
 production use.
 
-Licensed under [The Inertia Rails SSR Cache License](LICENSE.md): free for
+Licensed under [The ShakaStack License](LICENSE.md): free for
 development, test and CI, and for production use by small organizations,
 charities, schools and hospitals. Other production use is covered by an active
 ShakaStack Pro subscription for your whole organization, with no limit on

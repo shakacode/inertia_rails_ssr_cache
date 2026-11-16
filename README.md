@@ -185,7 +185,7 @@ the [release procedure](docs/releasing.md).
 ## License
 
 Inertia Rails SSR Cache uses ShakaCode Trust-Based Commercial Licensing, under
-[The Inertia Rails SSR Cache License](LICENSE.md).
+[The ShakaStack License](LICENSE.md).
 
 TL;DR: development, test, CI, staging and preview use is free for
 everyone. Production use is free for organizations under 10 people, $1M
