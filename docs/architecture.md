@@ -183,3 +183,13 @@ framework boundaries have runtime integration coverage.
 
 The next expansion should be an adopter-specific pilot with representative public
 props and a production-style shared cache, before adding larger-run orchestration.
+
+## License and release boundary
+
+The gem and npm package carry identical copies of The ShakaStack License,
+version 1.0, applied to Inertia Rails SSR Cache. The source is the approved
+edition in `shakacode/commercial-licensing` under `license/releases/1.0/`.
+The package check pins its SHA256 digest and inspects the license inside the
+built gem. Release preflight also rejects counsel markers, text that is not in
+force, and releases below version `0.2.0`. Draft checks run on the release path
+so normal validation can inspect proposed text before a release.

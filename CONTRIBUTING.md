@@ -4,7 +4,7 @@ Work on a feature branch and open a pull request against `main`.
 
 ## Licensing and contributions
 
-Inertia Rails SSR Cache is distributed under The Inertia Rails SSR Cache License
+Inertia Rails SSR Cache is distributed under The ShakaStack License
 (see [LICENSE.md](LICENSE.md)). Before we can merge your contribution, we need you
 to agree to our Contributor License Agreement (see [CLA.md](CLA.md)).
 

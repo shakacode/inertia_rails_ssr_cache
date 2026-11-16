@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Verified Inertia Rails SSR cache warming through Active Job."
   spec.description = "Warm explicitly registered public routes through the native Inertia SSR cache."
   spec.homepage = "https://github.com/shakacode/inertia_rails_ssr_cache"
-  spec.license = "LicenseRef-InertiaRailsSsrCache"
+  spec.license = "LicenseRef-ShakaStack-1.0-InertiaRailsSsrCache"
   spec.required_ruby_version = ">= 3.3"
   spec.metadata = {
     "allowed_push_host" => "https://rubygems.org",
