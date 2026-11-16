@@ -36,5 +36,8 @@ production use.
 
 Licensed under [The ShakaStack License](LICENSE.md): free for
 development, test and CI, and for production use by small organizations,
-charities, schools and hospitals. Other production use is covered by a ShakaStack Pro
-subscription for organizations under 250 people and $10M revenue; see [pro.reactonrails.com](https://pro.reactonrails.com/).
+charities, schools and hospitals. Other production use is covered by an active
+ShakaStack Pro subscription for your whole organization, with no limit on
+headcount or revenue. See [pro.reactonrails.com](https://pro.reactonrails.com/) and the
+[ShakaStack Pro coverage notice](https://github.com/shakacode/commercial-licensing/blob/main/license/notices/2026-11-shakastack-pro-coverage.md),
+which extends this coverage to releases under the current license.
